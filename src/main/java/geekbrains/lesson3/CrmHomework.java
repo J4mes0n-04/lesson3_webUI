@@ -30,41 +30,51 @@ public class CrmHomework {
 
         //Thread.sleep(5000);
         List<WebElement> navMenuElements = driver.findElements(By.xpath("//div[@id='main-menu']/ul/li/a"));
-        WebElement expenceElement = navMenuElements.stream().filter(e -> e.getText().equals("Расходы")).findFirst().get();
+        WebElement expenceElement = navMenuElements.stream().filter(e -> e.getText().equals("Проекты")).findFirst().get();
 
         Actions actions = new Actions(driver);
         actions.moveToElement(expenceElement).build().perform();
-        driver.findElement(By.xpath("//span[.='Заявки на расходы']")).click();
+        driver.findElement(By.xpath("//span[.='Все проекты']")).click();
 
-        webDriverWait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//a[.='Создать заявку на расход']")));
-        webDriverWait.until(ExpectedConditions.visibilityOf(driver.findElement(By.xpath("//a[.='Создать заявку на расход']"))));
-        driver.findElement(By.xpath("//a[.='Создать заявку на расход']")).click();
+        webDriverWait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//a[.='Создать проект']")));
+        webDriverWait.until(ExpectedConditions.visibilityOf(driver.findElement(By.xpath("//a[.='Создать проект']"))));
+        driver.findElement(By.xpath("//a[.='Создать проект']")).click();
+
+        webDriverWait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//input[contains(@id, 'crm_project_name-uid')]")));
+        driver.findElement(By.xpath("//input[contains(@id, 'crm_project_name-uid')]")).sendKeys("test project");
 
         webDriverWait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector("textarea")));
         driver.findElement(By.cssSelector("textarea")).sendKeys("test");
 
+
+        Select organisationSelect = new Select(
+                driver.findElement(By.xpath("//span[@class='select2-chosen']")));
+        organisationSelect.selectByVisibleText("«Все организации»");
+
+        Select prioritySelect = new Select(
+                driver.findElement(By.xpath("//select[@name='crm_project[priority]']")));
+        prioritySelect.selectByVisibleText("Средний");
+
+        Select financeSourceSelect = new Select(
+                driver.findElement(By.xpath("//select[@name='crm_project[financeSource]']")));
+        financeSourceSelect.selectByVisibleText("Из средств заказчика");
+
         Select businessUnitSelect = new Select(
-                driver.findElement(By.xpath("//select[@name='crm_expense_request[businessUnit]']")));
-        businessUnitSelect.selectByVisibleText("Research & Development");
+                driver.findElement(By.xpath("//select[@name='crm_project[businessUnit]']")));
+        businessUnitSelect.selectByVisibleText("Из средств заказчика");
 
-        Select expenditureSelect = new Select(driver.findElement(By.xpath("//select[@name='crm_expense_request[expenditure]']")));
-        expenditureSelect.selectByVisibleText("01101 - ОС: вычислительная техника инфраструктуры");
+        Select curatorSelect = new Select(
+                driver.findElement(By.xpath("//select[@name='crm_project[curator]']")));
+        curatorSelect.selectByVisibleText("Гумённый Пётр");
 
-        Select currencySelect = new Select(driver.findElement(By.xpath("//select[@name='crm_expense_request[currency]']")));
-        currencySelect.selectByVisibleText("Доллар США");
+        Select RPSelect = new Select(
+                driver.findElement(By.xpath("//select[@name='crm_project[rp]']")));
+        RPSelect.selectByVisibleText("Авласёнок Денис");
 
-        webDriverWait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//input[@name='crm_expense_request[sumPlan]']")));
-        driver.findElement(By.xpath("//input[@name='crm_expense_request[sumPlan]']")).sendKeys("150");
+        Select managerSelect = new Select(
+                driver.findElement(By.xpath("//select[@name='crm_project[manager]']")));
+        managerSelect.selectByVisibleText("Амелин Владимир");
 
-        webDriverWait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//input[@name='date_selector_crm_expense_request_datePlan-uid-6151e44ddfc04']")));
-        driver.findElement(By.xpath("//input[@name='date_selector_crm_expense_request_datePlan-uid-6151e44ddfc04']")).click();
-            Thread.sleep(3000);
-
-            webDriverWait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//a[@class='ui-state-default ui-state-active']")));
-            driver.findElement(By.xpath("//a[@class='ui-state-default ui-state-active']")).click();
-
-        Select chosenSelect = new Select(driver.findElement(By.xpath("//span[contains(., 'Выберите')]")));
-        chosenSelect.selectByVisibleText("№23455");
 
         driver.findElement(By.xpath("//button[contains(., 'Сохранить и закрыть')]")).click();
 
